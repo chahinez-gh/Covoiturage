@@ -1,0 +1,82 @@
+<div class="container">
+
+
+  <form class="mt-5" (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <div class="form-row ">
+      <div class="form-group col-md-3">
+        <label for="inputEmail4">Ville de départ</label>
+        <input type="text" ngModel name="villeDepart" class="form-control" id="inputEmail4"
+          placeholder="Ville de départ">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Ville d'arrivée</label>
+        <input type="text" ngModel name="villeArrive" class="form-control" id="inputPassword4"
+          placeholder="Ville d'arrivée">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputEmail4">Date</label>
+        <input type="date" ngModel name="date" class="form-control" id="inputEmail4" placeholder="Date">
+      </div>
+      <div class="form-group col-md-3">
+        <label for="inputPassword4">Genre</label>
+        <input type="text" ngModel name="genre" class="form-control" id="inputPassword4" placeholder="Genre">
+      </div>
+    </div>
+
+    <button *ngIf="!editMode" type="submit" class="btn btn-primary float-right">Ajouter</button>
+    <button *ngIf="editMode" type="submit" class="btn btn-success float-right">Modifier</button>
+    <button type="button" (click)="onReset()" class="btn btn-default float-right mr-2">Nouveau</button>
+  </form>
+
+  <div class="mt-5"></div>
+  <div class="input-group col-md-4 mb-3 ml-0">
+    <input type="text" class="form-control" placeholder="Filter par :" [(ngModel)]="filterString" >
+    <div class="input-group-append">
+      <button class="btn btn-outline-secondary" (click)="filterCovoiturage()" type="button">Filtrer</button>
+    </div>
+  </div>
+  <div class="form-check-inline mb-3">
+    <label class="form-check-label">
+      <input type="radio" class="form-check-input" name="optradio" [checked]="true" (change)="onItemChange()">Ville de départ
+    </label>
+  </div>
+  <div class="form-check-inline">
+    <label class="form-check-label">
+      <input type="radio" class="form-check-input" name="optradio" (change)="onItemChange()">Ville d'arrivée
+    </label>
+  </div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Ville de départ</th>
+        <th scope="col">Ville d'arrivée</th>
+        <th scope="col">Date</th>
+        <th scope="col">Genre</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let covoiturage of (covoiturages | async).covoiturages; let i = index">
+        <th scope="row">{{i}}</th>
+        <td>{{covoiturage.villeDepart}}</td>
+        <td>{{covoiturage.villeArrive}}</td>
+        <td>{{covoiturage.date | date: 'yyyy-MM-dd'}}</td>
+        <td>{{covoiturage.genre}}</td>
+        <td>
+          <ul class="list-inline m-0">
+            <li class="list-inline-item">
+              <button (click)="onSelect(i)" class="btn btn-success btn-sm rounded-0" type="button" data-toggle="tooltip"
+                data-placement="top" title="Edit"><i class="fa fa-edit"></i></button>
+            </li>
+            <li class="list-inline-item">
+              <button (click)="onDelete(i)" class="btn btn-danger btn-sm rounded-0" type="button" data-toggle="tooltip"
+                data-placement="top" title="Delete"><i class="fa fa-trash"></i></button>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
